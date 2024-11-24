@@ -48,7 +48,7 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
-templates = Jinja2Templates(directory="/home/adewale/Documents/TodoApp/templates")
+templates = Jinja2Templates(directory="/home/adewale/TodoApp/templates")
 
 
 ### Pages ###
