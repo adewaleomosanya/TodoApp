@@ -13,10 +13,10 @@ GET /healthy: Simple endpoint to verify the API is running.
 GET /: Returns a list of all todos.
 
 3. To Read,Update,Delete,Create Todo 
-Read Todo: GET /todo/{todo_id} - Retrieve a todo item by ID.
-Update Todo: PUT /todo/{todo_id} - Update a todo item by ID.
-Delete Todo: DELETE /todo/{todo_id} - Delete a todo item by ID.
-Create Todo: POST /todo - Create a new todo item.
+- Read Todo: GET /todo/{todo_id} - Retrieve a todo item by ID.
+- Update Todo: PUT /todo/{todo_id} - Update a todo item by ID.
+- Delete Todo: DELETE /todo/{todo_id} - Delete a todo item by ID.
+- Create Todo: POST /todo - Create a new todo item.
 
 4. Authentication (auth)
 User Registration
