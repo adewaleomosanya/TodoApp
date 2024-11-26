@@ -165,7 +165,7 @@
         });
     }
 
-    /// Register JS
+    // Register JS
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', async function (event) {
@@ -175,26 +175,23 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
-            // Check if passwords match
             if (data.password !== data.password2) {
                 alert("Passwords do not match");
                 return;
             }
 
-            // Construct payload with correct field names
             const payload = {
                 email: data.email,
-                username: data.username, // Fixed: Use `username` instead of `user_name`
-                first_name: data.first_name,
-                last_name: data.last_name,
+                username: data.username,
+                first_name: data.firstname,
+                last_name: data.lastname,
                 role: data.role,
                 phone_number: data.phone_number,
                 password: data.password
             };
 
             try {
-                // Send a POST request to the backend
-                const response = await fetch('/auth/', { // Fixed: Ensure the endpoint matches the backend
+                const response = await fetch('/auth', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -203,12 +200,11 @@
                 });
 
                 if (response.ok) {
-                    // Redirect to the login page on success
                     window.location.href = '/auth/login-page';
                 } else {
-                    // Handle error response from the backend
+                    // Handle error
                     const errorData = await response.json();
-                    alert(`Error: ${errorData.detail || errorData.message}`);
+                    alert(`Error: ${errorData.message}`);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -238,30 +234,18 @@
     };
 
     function logout() {
-        // Delete all cookies
+        // Get all cookies
         const cookies = document.cookie.split(";");
     
-        cookies.forEach(cookie => {
+        // Iterate through all cookies and delete each one
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i];
             const eqPos = cookie.indexOf("=");
-            const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-            // Delete the cookie by setting an expired date
-            document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-        });
+            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            // Set the cookie's expiry date to a past date to delete it
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        }
     
-        // Optionally, send a request to the server to clear the session
-        fetch('/auth/logout', {
-            method: 'POST', // Adjust this to match your backend logout endpoint
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // Include cookies with the request if necessary
-        }).then(response => {
-            if (response.ok) {
-                // Redirect to the login page
-                window.location.href = '/auth/login-page';
-            } else {
-                console.error('Server logout failed:', response.statusText);
-            }
-        }).catch(err => console.error('Logout error:', err));
-    }
-    
+        // Redirect to the login page
+        window.location.href = '/auth/login-page';
+    };
